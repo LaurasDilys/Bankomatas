@@ -28,6 +28,27 @@ namespace Bankomatas
             return selection;
         }
 
+        public static decimal AmountOfMoney(string depositOrWithdraw)
+        {
+            decimal amount = 0;
+            string text = $"Kiek pinigų norite {depositOrWithdraw} (Eur)? ";
+
+            while (true)
+            {
+                Console.Write(text);
+                string input = Console.ReadLine();
+                if (decimal.TryParse(input, out amount))
+                {
+                    if (amount >= 0)
+                    {
+                        break;
+                    }
+                }
+                Bad(text, input);
+            }
+            return amount;
+        }
+
         public static void Bad(string text, string input)
         {
             Console.SetCursorPosition(Console.CursorLeft + text.Length, Console.CursorTop - 1);

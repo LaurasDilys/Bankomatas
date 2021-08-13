@@ -9,13 +9,13 @@ namespace Bankomatas
         static string PIN { get; set; } = "1234";
 
         // Hide PIN
-        public static void Validate(string start)
+        public static void Validate(string startOfSentence)
         {
             int triesAllowed = 3;
 
             for (int tries = 0; tries < triesAllowed; tries++)
             {
-                string pinAttempt = EnterPin(start);
+                string pinAttempt = EnterPin(startOfSentence);
 
                 Console.Clear();
                 if (pinAttempt == PIN)
@@ -62,7 +62,7 @@ namespace Bankomatas
             Menu.ShowOrExit();
         }
 
-        private static string EnterPin(string start)
+        private static string EnterPin(string startOfSentence)
         {
             int pinLength = 4;
 
@@ -71,7 +71,7 @@ namespace Bankomatas
 
             while (pin.Length < pinLength)
             {
-                text = $"{start} PIN (naudojant skaitmenis): {pin.ToString()}";
+                text = $"{startOfSentence} PIN (naudojant skaitmenis): {pin.ToString()}";
                 Console.Write(text);
                 string input = Console.ReadKey().KeyChar.ToString();
 

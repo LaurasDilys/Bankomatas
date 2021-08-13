@@ -12,8 +12,8 @@ namespace Bankomatas
             { 2, "Keisti PIN kodą" },
             { 3, "Sąskaitos likutis" },
             { 4, "Sąskaitos išrašas" },
-            { 5, "Įnešti pinigus" },
-            { 6, "Išimti pinigus" },
+            { 5, "Pinigų įnešimas" },
+            { 6, "Pinigų išėmimas" },
             { 7, "Baigti darbą" }
         };
 

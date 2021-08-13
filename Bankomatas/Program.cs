@@ -11,7 +11,8 @@ namespace Bankomatas
 
         static void Main(string[] args)
         {
-            Account.InitialBalanceOf(1000);
+            // !LoggedIn, todėl negalima naudoti Language.Choose()
+            //Account.InitialBalanceOf(1000);
             //Language.Choose();
             //LogIn();
             Menu.Show();
@@ -22,20 +23,10 @@ namespace Bankomatas
             Pin.Validate("Įveskite");
         }
 
-        
-
-        
-
-        
-
-        
-
-        
-
-        
-
+        // Dienos / vakaro / nakties – pagal DateTime.Now()
         public static void Exit()
         {
+            Console.WriteLine("Buvo malonu Jums padėti. Geros dienos!\n");
             Environment.Exit(0);
         }
     }

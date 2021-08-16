@@ -33,7 +33,7 @@ namespace Bankomatas
                 {
                     break;
                 }
-                Bad(text, input);
+                Invalid(text, input);
             }
             return selection;
         }
@@ -54,19 +54,19 @@ namespace Bankomatas
                         break;
                     }
                 }
-                Bad(text, input);
+                Invalid(text, input);
             }
             return amount;
         }
 
-        public static void Bad(string text, string input)
+        public static void Invalid(string text, string input)
         {
             Console.SetCursorPosition(Console.CursorLeft + text.Length, Console.CursorTop - 1);
             Console.WriteLine(string.Concat(Enumerable.Repeat(" ", input.Length)));
             Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
         }
 
-        public static void BadKey(string text)
+        public static void Reset(string text)
         {
             Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
             Console.WriteLine(" ");

@@ -103,7 +103,7 @@ namespace Bankomatas
                 {
                     pin.Append(num);
                 }
-                Input.BadKey(text);
+                Input.Reset(text);
             }
 
             return pin.ToString();

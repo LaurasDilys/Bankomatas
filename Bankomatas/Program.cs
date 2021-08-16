@@ -16,9 +16,8 @@ namespace Bankomatas
 
         static void Main(string[] args)
         {
-            // !LoggedIn, todėl negalima naudoti Language.Choose()
-            //Language.Choose();
-            //LogIn();
+            Language.Choose();
+            LogIn();
             Account.SetBalance();
             Menu.Show();
         }

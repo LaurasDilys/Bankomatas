@@ -18,6 +18,7 @@ namespace Bankomatas
             int selection = Input.EscapeOrSelectFrom(2);
             string choice = "";
 
+            Console.Clear();
             switch (selection)
             {
                 case (0):
@@ -33,7 +34,6 @@ namespace Bankomatas
                     break;
             }
 
-            Console.Clear();
             Console.WriteLine("========= NUSTATYMAI =========\n");
             Console.WriteLine($"Pasirinkta {choice} įvedamą PIN kodą.\n");
             Menu.ShowOrExit();

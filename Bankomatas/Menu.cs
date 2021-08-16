@@ -59,6 +59,7 @@ namespace Bankomatas
                     Pin.Change();
                     break;
                 case (3):
+                    Console.WriteLine("========= SĄSKAITOS LIKUTIS =========\n");
                     Account.ShowBalance();
                     break;
                 case (4):

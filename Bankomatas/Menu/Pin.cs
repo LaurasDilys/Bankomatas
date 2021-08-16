@@ -26,7 +26,6 @@ namespace Bankomatas
             File.WriteAllText(Path, pin);
         }
 
-        // Hide PIN
         public static void Validate(string startOfSentence)
         {
             int triesAllowed = 3;

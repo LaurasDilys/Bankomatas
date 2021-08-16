@@ -6,7 +6,6 @@ namespace Bankomatas
 {
     static class Language
     {
-        // Add dictionary
         public static void Choose()
         {
             Console.WriteLine("Galimos kalbos:\n1 - LT\n2 - EN\n3 - RU\n");

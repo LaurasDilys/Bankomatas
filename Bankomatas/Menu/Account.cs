@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Text;
 
 namespace Bankomatas
@@ -36,11 +38,8 @@ namespace Bankomatas
             // Dėl įvairumo įsivaizduojam, kad atitinkama
             // suma buvo įvesta vakar => AddDays(-1)
 
-            if (amount > 0)
-            {
-                History.Add(DateTime.Now.AddDays(-1), amount);
-                Balance += amount;
-            }
+            History.Add(DateTime.Now.AddDays(-2), amount);
+            balance += amount;
         }
 
         public static void ShowBalance()
@@ -49,18 +48,63 @@ namespace Bankomatas
             Menu.ShowOrExit();
         }
 
+
+
         // Tik testinė versija – reikia pagražinti
         public static void ShowHistory()
         {
-            foreach (var item in History)
+            //Console.WriteLine($"Jūsų banko sąskaitoje yra {Balance} Eur\n");
+
+            DateTime currentDate = DateTime.Today.AddDays(1);
+            DateTime operationDate;
+            decimal amount;
+
+            for (int i = History.Count - 1; i >= 0; i--)
             {
-                Console.WriteLine(item.Key);
-                Console.WriteLine(item.Value);
+                operationDate = History.ElementAt(i).Key.Date;
+                amount = History.ElementAt(i).Value;
+
+                if (currentDate != operationDate)
+                {
+                    currentDate = operationDate;
+                    Print(currentDate);
+                }
+                
+                Console.WriteLine("{0}{1}{2} Eur",
+                    amount > 0 ? "Pinigų įnešimas" : "Pinigų išėmimas",
+                    string.Concat(Enumerable.Repeat(" ", 18 - amount.ToString().Length)),
+                    amount);
+            }
+            
+            //Menu.ShowOrExit();
+        }
+
+        private static void Print(DateTime currentDate)
+        {
+            string currentDay;
+
+            if (currentDate == DateTime.Today)
+            {
+                currentDay = "Šiandien";
+            }
+            else if (currentDate == DateTime.Today.AddDays(-1))
+            {
+                currentDay = "Vakar";
+            }
+            else
+            {
+                string day = currentDate.Date.ToString("dddd, MMMM dd",
+                    CultureInfo.CreateSpecificCulture("lt-LT"));
+                currentDay = day.First().ToString().ToUpper() +
+                    day.Substring(1, day.Length - 1);
             }
 
             Console.WriteLine();
-            Menu.ShowOrExit();
+            Console.WriteLine(currentDay);
+            Console.WriteLine("-------------------------------------");
         }
+
+
 
         public static void Deposit()
         {

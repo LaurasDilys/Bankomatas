@@ -56,13 +56,15 @@ namespace Bankomatas
             {
                 DateTime currentDate = DateTime.Today.AddDays(1);
                 DateTime operationDate;
+                DateTime operationTime;
                 decimal amount;
 
                 PrintBalance();
 
                 for (int i = History.Count - 1; i >= 0; i--)
                 {
-                    operationDate = History.ElementAt(i).Key.Date;
+                    operationTime = History.ElementAt(i).Key;
+                    operationDate = operationTime.Date;
                     amount = History.ElementAt(i).Value;
 
                     if (currentDate != operationDate)
@@ -71,7 +73,7 @@ namespace Bankomatas
                         Print(currentDate);
                     }
 
-                    Print(amount);
+                    Print(operationTime, amount);
                 }
 
                 Console.SetCursorPosition(Console.CursorLeft, 0);
@@ -125,13 +127,15 @@ namespace Bankomatas
             Console.WriteLine("-------------------------------------");
         }
 
-        private static void Print(decimal amount)
+        private static void Print(DateTime operationTime, decimal amount)
         {
-            int spacesCount = 18 - amount.ToString().Length;
+            string time = operationTime.ToString("HH:mm");
+            int spacesCount = 14 - amount.ToString().Length - time.Length;
             spacesCount = spacesCount > 0 ? spacesCount : 1;
 
-            Console.Write("{0}{1}",
+            Console.Write("{0} ({1}) {2}",
                     amount > 0 ? "Pinigų įnešimas" : "Pinigų išėmimas",
+                    time,
                     string.Concat(Enumerable.Repeat(" ", spacesCount)));
 
             if (amount > 0)

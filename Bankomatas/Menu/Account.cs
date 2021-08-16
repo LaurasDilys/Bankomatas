@@ -69,11 +69,8 @@ namespace Bankomatas
                     currentDate = operationDate;
                     Print(currentDate);
                 }
-                
-                Console.WriteLine("{0}{1}{2} Eur",
-                    amount > 0 ? "Pinigų įnešimas" : "Pinigų išėmimas",
-                    string.Concat(Enumerable.Repeat(" ", 18 - amount.ToString().Length)),
-                    amount);
+
+                Print(amount);
             }
             
             //Menu.ShowOrExit();
@@ -104,7 +101,21 @@ namespace Bankomatas
             Console.WriteLine("-------------------------------------");
         }
 
+        private static void Print(decimal amount)
+        {
+            Console.Write("{0}{1}",
+                    amount > 0 ? "Pinigų įnešimas" : "Pinigų išėmimas",
+                    string.Concat(Enumerable.Repeat(" ", 18 - amount.ToString().Length)));
 
+            if (amount > 0)
+                Console.ForegroundColor = ConsoleColor.Green;
+            else
+                Console.ForegroundColor = ConsoleColor.Red;
+
+            Console.Write(amount);
+            Console.ResetColor();
+            Console.WriteLine(" Eur");
+        }
 
         public static void Deposit()
         {

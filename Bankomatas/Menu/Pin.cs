@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Bankomatas
@@ -86,10 +87,15 @@ namespace Bankomatas
 
             StringBuilder pin = new StringBuilder("", 4);
             string text = "";
+            string pinShown;
 
             while (pin.Length < pinLength)
             {
-                text = $"{startOfSentence} PIN (naudojant skaitmenis): {pin.ToString()}";
+                pinShown = Program.HidePin ?
+                    string.Concat(Enumerable.Repeat("*", pin.Length)) :
+                    pin.ToString();
+
+                text = $"{startOfSentence} PIN (naudojant skaitmenis): {pinShown}";
                 Console.Write(text);
                 string input = Console.ReadKey().KeyChar.ToString();
 

@@ -8,6 +8,11 @@ namespace Bankomatas
     class Program
     {
         public static bool LoggedIn { get; set; } = false;
+        public static bool HidePin
+        {
+            get { return Settings.PinVisibilitySetting(); }
+            set { Settings.PinVisibilitySetting(value); }
+        }
 
         static void Main(string[] args)
         {

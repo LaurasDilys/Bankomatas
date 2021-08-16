@@ -66,10 +66,9 @@ namespace Bankomatas
             Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
         }
 
-        // REIKIA TAISYTI
         public static void BadKey(string text)
         {
-            Console.SetCursorPosition(Console.CursorLeft + text.Length + 1, Console.CursorTop);
+            Console.SetCursorPosition(Console.CursorLeft - 1, Console.CursorTop);
             Console.WriteLine(" ");
             Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1);
         }

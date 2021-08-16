@@ -14,7 +14,8 @@ namespace Bankomatas
             { 4, "Sąskaitos išrašas" },
             { 5, "Pinigų įnešimas" },
             { 6, "Pinigų išėmimas" },
-            { 7, "Baigti darbą" }
+            { 7, "Nustatymai" },
+            { 8, "Baigti darbą" }
         };
 
         public static void ShowOrExit()
@@ -70,6 +71,9 @@ namespace Bankomatas
                     Account.Withdraw();
                     break;
                 case (7):
+                    Settings.Show();
+                    break;
+                case (8):
                     Program.Exit();
                     break;
             }

@@ -1,12 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace Bankomatas
 {
     static class Pin
     {
-        static string PIN { get; set; } = "1234";
+        private static string Path { get; } = @"pin.txt";
+
+        private static string PIN
+        {
+            get { return GetPin(); }
+            set { value.IsNewPin(); }
+        }
+
+        private static string GetPin()
+        {
+            return File.ReadAllLines(Path)[0];
+        }
+
+        private static void IsNewPin(this string pin)
+        {
+            File.WriteAllText(Path, pin);
+        }
 
         // Hide PIN
         public static void Validate(string startOfSentence)

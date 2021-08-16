@@ -21,6 +21,16 @@ namespace Bankomatas
 
         private static Dictionary<DateTime, decimal> History { get; } = new Dictionary<DateTime, decimal>();
 
+        private static Dictionary<int, decimal> Banknotes { get; } = new Dictionary<int, decimal>()
+        {
+            { 1, 10 },
+            { 2, 20 },
+            { 3, 50 },
+            { 4, 100 },
+            { 5, 200 },
+            { 6, 0 } // vietoj 0 bus pasirinkimas "Kita suma"
+        };
+
         public static void InitialBalanceOf(decimal amount)
         {
             // Dėl įvairumo įsivaizduojam, kad atitinkama
@@ -67,7 +77,33 @@ namespace Bankomatas
             else Menu.Show();
         }
 
+        // Visoms pinigų išėmimo operacijoms reikia tikrinti,
+        // kiek turima pinigų – ir kokios tuomet yra išėmimo galimybės
         public static void Withdraw()
+        {
+            int escape = BanknoteOptions();
+            Console.WriteLine("Kiek pinigų norite įnešti?");
+            int selection = Input.EscapeOrSelectFrom(Banknotes.Count);
+
+            Console.Clear();
+            Switch(selection);
+        }
+
+        private static void Withdraw(decimal amount)
+        {
+            if (amount <= Balance)
+            {
+                Balance -= amount;
+                Console.WriteLine($"Iš sąskaitos išėmėte {amount} Eur.");
+            }
+            else
+            {
+                Console.WriteLine("Nepakanka lėšų.");
+            }
+            ShowBalance();
+        }
+
+        private static void WithdrawOther()
         {
             int escape = EscapeOption();
             decimal amount = Input.AmountOfMoney("išimti");
@@ -75,19 +111,39 @@ namespace Bankomatas
 
             if (amount > 0)
             {
-                if (amount <= Balance)
+                // Pasirinkta suma turi būti dali iš 10, nes
+                // 10 yra mažiausia išduodamų banknotų vertė
+                if (amount % 10 == 0)
                 {
-                    Balance -= amount;
-                    Console.WriteLine($"Iš sąskaitos išėmėte {amount} Eur.");
+                    Withdraw(amount);
                 }
                 else
                 {
-                    Console.WriteLine("Nepakanka lėšų.");
+                    Console.WriteLine("Nėra galimybės išimti pasirinktos pinigų sumos.");
+                    Console.WriteLine("Mažiausia bankomato išduodama kupiūra - 10 Eur.\n");
+                    WithdrawOther();
                 }
-                ShowBalance();
             }
             else Menu.Show();
         }
+
+        private static void Switch(int selection)
+        {
+            if (selection == 0)
+            {
+                Menu.Show();
+            }
+            else if (Banknotes[selection] == 0)
+            {
+                WithdrawOther();
+            }
+            else
+            {
+                Withdraw(Banknotes[selection]);
+            }
+        }
+
+        
 
         private static int EscapeOption()
         {
@@ -97,6 +153,25 @@ namespace Bankomatas
             Console.Write($"\n\n{text}");
             Console.SetCursorPosition(Console.CursorLeft - text.Length, Console.CursorTop - 2);
 
+            return escape;
+        }
+
+        private static int BanknoteOptions()
+        {
+            Console.WriteLine("\n\n");
+
+            int lines = (Banknotes.Count / 2);
+            for (int i = 1; i <= lines; i++)
+            {
+                int j = i + lines;
+                Console.WriteLine("{0} - {1}              {2} - {3}\n",
+                    i, Banknotes[i], j, Banknotes[j] == 0 ? "Kita suma" : $"{Banknotes[j]}");
+            }
+
+            Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 2);
+            int escape = EscapeOption();
+
+            Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1 - lines * 2);
             return escape;
         }
     }

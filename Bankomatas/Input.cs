@@ -9,19 +9,29 @@ namespace Bankomatas
     {
         public static int SelectFrom(int amountOfOptions)
         {
-            int selection = 0;
+            return SelectFromVariant(amountOfOptions, false);
+        }
+
+        public static int EscapeOrSelectFrom(int amountOfOptions)
+        {
+            return SelectFromVariant(amountOfOptions, true);
+        }
+
+        private static int SelectFromVariant(int amountOfOptions, bool withTheAdditionOfZero)
+        {
+            int selection = -1;
+            int firstSelection = withTheAdditionOfZero ? 0 : 1;
             string text = "Jūsų pasirinkimas (įveskite atitinkamą skaičių): ";
 
             while (true)
             {
                 Console.Write(text);
                 string input = Console.ReadLine();
-                if (Int32.TryParse(input, out selection))
+                if (Int32.TryParse(input, out selection)
+                    && selection >= firstSelection
+                    && selection <= amountOfOptions)
                 {
-                    if (selection >= 1 && selection <= amountOfOptions)
-                    {
-                        break;
-                    }
+                    break;
                 }
                 Bad(text, input);
             }

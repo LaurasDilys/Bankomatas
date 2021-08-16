@@ -9,7 +9,7 @@ namespace Bankomatas
 {
     static class Account
     {
-        private static string Path { get; set; } = @"history.txt";
+        private static string Path { get; } = @"history.txt";
 
         private static Dictionary<int, decimal> Banknotes { get; } = new Dictionary<int, decimal>()
         {

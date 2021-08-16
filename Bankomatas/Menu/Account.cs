@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -8,20 +9,7 @@ namespace Bankomatas
 {
     static class Account
     {
-        private static decimal balance;
-        private static decimal Balance
-        {
-            get { return balance; }
-            set
-            {
-                decimal change = value - balance;
-                History.Add(DateTime.Now, change);
-                balance = value;
-
-            }
-        }
-
-        private static Dictionary<DateTime, decimal> History { get; } = new Dictionary<DateTime, decimal>();
+        private static string Path { get; set; } = @"history.txt";
 
         private static Dictionary<int, decimal> Banknotes { get; } = new Dictionary<int, decimal>()
         {
@@ -33,13 +21,23 @@ namespace Bankomatas
             { 6, 0 } // vietoj 0 bus pasirinkimas "Kita suma"
         };
 
-        public static void InitialBalanceOf(decimal amount)
-        {
-            // Dėl įvairumo įsivaizduojam, kad atitinkama
-            // suma buvo įvesta vakar => AddDays(-1)
+        //
 
-            History.Add(DateTime.Now.AddDays(-2), amount);
-            balance += amount;
+        private static decimal balance;
+        private static decimal Balance
+        {
+            get { return balance; }
+            set
+            {
+                decimal change = value - balance;
+                change.AddToHistory();
+                balance = value;
+            }
+        }
+
+        public static void SetBalance()
+        {
+            balance = History.Values.Sum();
         }
 
         public static void ShowBalance()
@@ -48,7 +46,31 @@ namespace Bankomatas
             Menu.ShowOrExit();
         }
 
+        //
 
+        private static Dictionary<DateTime, decimal> History
+        {
+            get { return ReadHistory(); }
+        }
+
+        private static void AddToHistory(this decimal amount)
+        {
+            File.AppendAllText(Path, $"{DateTime.Now}{Environment.NewLine}");
+            File.AppendAllText(Path, $"{amount}{Environment.NewLine}");
+        }
+
+        private static Dictionary<DateTime, decimal> ReadHistory()
+        {
+            Dictionary<DateTime, decimal> history = new Dictionary<DateTime, decimal>();
+            string[] lines = File.ReadAllLines(Path).Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+
+            for (int i = 0; i < lines.Length; i += 2)
+            {
+                history.Add(DateTime.Parse(lines[i]), decimal.Parse(lines[i + 1]));
+            }
+
+            return history;
+        }
 
         public static void ShowHistory()
         {
@@ -86,7 +108,7 @@ namespace Bankomatas
                 Console.WriteLine("Operacijų nėra.\n");
                 Menu.ShowOrExit();
             }
-            
+
         }
 
         private static void PrintBalance()
@@ -148,7 +170,7 @@ namespace Bankomatas
             Console.WriteLine(" Eur");
         }
 
-
+        //
 
         public static void Deposit()
         {
@@ -164,8 +186,6 @@ namespace Bankomatas
             }
             else Menu.Show();
         }
-
-
 
         // Visoms pinigų išėmimo operacijoms reikia tikrinti,
         // kiek turima pinigų – ir kokios tuomet yra išėmimo galimybės
@@ -233,7 +253,7 @@ namespace Bankomatas
             }
         }
 
-        
+        //
 
         private static int EscapeOption()
         {

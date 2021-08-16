@@ -10,8 +10,8 @@ namespace Bankomatas
         public static bool LoggedIn { get; set; } = false;
         public static bool HidePin
         {
-            get { return Settings.PinVisibilitySetting(); }
-            set { Settings.PinVisibilitySetting(value); }
+            get { return Settings.PinVisibility(); }
+            set { Settings.PinVisibility(value); }
         }
 
         static void Main(string[] args)
@@ -27,7 +27,6 @@ namespace Bankomatas
             Pin.Validate("Įveskite");
         }
 
-        // Dienos / vakaro / nakties – pagal DateTime.Now()
         public static void Exit()
         {
             Console.WriteLine("Buvo malonu Jums padėti. Geros dienos!\n");

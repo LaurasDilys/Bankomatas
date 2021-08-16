@@ -187,8 +187,6 @@ namespace Bankomatas
             else Menu.Show();
         }
 
-        // Visoms pinigų išėmimo operacijoms reikia tikrinti,
-        // kiek turima pinigų – ir kokios tuomet yra išėmimo galimybės
         public static void Withdraw()
         {
             int escape = BanknoteOptions();

@@ -37,7 +37,7 @@ namespace Bankomatas
 
         public static void Show()
         {
-            Console.WriteLine("Meniu:");
+            Console.WriteLine("======= MENIU =======\n");
             foreach (var item in Options)
                 Console.WriteLine($"{item.Key} - {item.Value}");
 

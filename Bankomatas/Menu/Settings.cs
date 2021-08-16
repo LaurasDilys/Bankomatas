@@ -39,12 +39,12 @@ namespace Bankomatas
             Menu.ShowOrExit();
         }
 
-        public static bool PinVisibilitySetting()
+        public static bool PinVisibility()
         {
             return bool.Parse(File.ReadAllLines(Path)[0]);
         }
 
-        public static void PinVisibilitySetting(bool hidePin)
+        public static void PinVisibility(bool hidePin)
         {
             File.WriteAllText(Path, hidePin.ToString());
         }

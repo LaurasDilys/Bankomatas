@@ -34,8 +34,9 @@ namespace Bankomatas
 
             Console.Clear();
             Console.WriteLine("Tris kartus įvestas neteisingas PIN kodas. Kortelė užbloguota!");
+            Console.WriteLine("\nDėl tolimesnių veiksmų prašome kreiptis į artimiausią banko padalinį.\n");
             Program.LoggedIn = false;
-            Program.Exit();
+            Environment.Exit(0);
         }
 
         public static void Change()

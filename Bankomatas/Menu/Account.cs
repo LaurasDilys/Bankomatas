@@ -50,30 +50,54 @@ namespace Bankomatas
 
 
 
-        // Tik testinė versija – reikia pagražinti
         public static void ShowHistory()
         {
-            //Console.WriteLine($"Jūsų banko sąskaitoje yra {Balance} Eur\n");
-
-            DateTime currentDate = DateTime.Today.AddDays(1);
-            DateTime operationDate;
-            decimal amount;
-
-            for (int i = History.Count - 1; i >= 0; i--)
+            if (History.Count > 0)
             {
-                operationDate = History.ElementAt(i).Key.Date;
-                amount = History.ElementAt(i).Value;
+                DateTime currentDate = DateTime.Today.AddDays(1);
+                DateTime operationDate;
+                decimal amount;
 
-                if (currentDate != operationDate)
+                PrintBalance();
+
+                for (int i = History.Count - 1; i >= 0; i--)
                 {
-                    currentDate = operationDate;
-                    Print(currentDate);
+                    operationDate = History.ElementAt(i).Key.Date;
+                    amount = History.ElementAt(i).Value;
+
+                    if (currentDate != operationDate)
+                    {
+                        currentDate = operationDate;
+                        Print(currentDate);
+                    }
+
+                    Print(amount);
                 }
 
-                Print(amount);
+                Console.SetCursorPosition(Console.CursorLeft, 0);
+                Console.WriteLine("========= SĄSKAITOS IŠRAŠAS =========\n");
+                Menu.ShowOrExit();
+            }
+            else
+            {
+                Console.WriteLine("========= SĄSKAITOS IŠRAŠAS =========\n");
+                Console.WriteLine("Operacijų nėra.\n");
+                Menu.ShowOrExit();
             }
             
-            //Menu.ShowOrExit();
+        }
+
+        private static void PrintBalance()
+        {
+            int spacesCount = 8 - Balance.ToString().Length;
+            spacesCount = spacesCount > 0 ? spacesCount : 1;
+
+            Console.WriteLine("\n\n\n\n\n\n");
+            Console.WriteLine("-------------------------------------");
+            Console.WriteLine("Jūsų banko sąskaitoje yra{0}{1} Eur",
+                string.Concat(Enumerable.Repeat(" ", spacesCount)),
+                Balance);
+            Console.WriteLine("_____________________________________");
         }
 
         private static void Print(DateTime currentDate)
@@ -96,16 +120,19 @@ namespace Bankomatas
                     day.Substring(1, day.Length - 1);
             }
 
-            Console.WriteLine();
+            Console.WriteLine("\n");
             Console.WriteLine(currentDay);
             Console.WriteLine("-------------------------------------");
         }
 
         private static void Print(decimal amount)
         {
+            int spacesCount = 18 - amount.ToString().Length;
+            spacesCount = spacesCount > 0 ? spacesCount : 1;
+
             Console.Write("{0}{1}",
                     amount > 0 ? "Pinigų įnešimas" : "Pinigų išėmimas",
-                    string.Concat(Enumerable.Repeat(" ", 18 - amount.ToString().Length)));
+                    string.Concat(Enumerable.Repeat(" ", spacesCount)));
 
             if (amount > 0)
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -116,6 +143,8 @@ namespace Bankomatas
             Console.ResetColor();
             Console.WriteLine(" Eur");
         }
+
+
 
         public static void Deposit()
         {
@@ -131,6 +160,8 @@ namespace Bankomatas
             }
             else Menu.Show();
         }
+
+
 
         // Visoms pinigų išėmimo operacijoms reikia tikrinti,
         // kiek turima pinigų – ir kokios tuomet yra išėmimo galimybės
@@ -226,7 +257,7 @@ namespace Bankomatas
             Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 2);
             int escape = EscapeOption();
 
-            Console.SetCursorPosition(Console.CursorLeft, Console.CursorTop - 1 - lines * 2);
+            Console.SetCursorPosition(Console.CursorLeft, 0);
             return escape;
         }
     }

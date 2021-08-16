@@ -14,8 +14,9 @@ namespace Bankomatas
             // !LoggedIn, todėl negalima naudoti Language.Choose()
             Account.InitialBalanceOf(1000);
             Account.InitialBalanceOf(-100);
-            //Language.Choose();
-            //LogIn();
+
+            Language.Choose();
+            LogIn();
             Menu.Show();
         }
 

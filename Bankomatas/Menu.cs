@@ -63,7 +63,7 @@ namespace Bankomatas
                     Account.ShowBalance();
                     break;
                 case (4):
-                    Account.ShowHistory();
+                    Account.ShowTransactions();
                     break;
                 case (5):
                     Account.Deposit();

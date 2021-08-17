@@ -35,15 +35,15 @@ namespace Bankomatas
             }
         }
 
-        public static void SetBalance()
-        {
-            balance = Transactions.Sum(t => t.Amount);
-        }
-
         public static void ShowBalance()
         {
             Console.WriteLine($"Jūsų banko sąskaitoje yra {Balance} Eur\n");
             Menu.ShowOrExit();
+        }
+
+        public static void SetBalance()
+        {
+            balance = Transactions.Sum(t => t.Amount);
         }
 
         //
@@ -58,6 +58,7 @@ namespace Bankomatas
             File.AppendAllText(Path, $"{DateTime.Now}{Environment.NewLine}");
             File.AppendAllText(Path, $"{amount}{Environment.NewLine}");
         }
+
         private static List<Transaction> ReadTransactions()
         {
             List<Transaction> transactions = new List<Transaction>();
@@ -95,7 +96,7 @@ namespace Bankomatas
         //    return history;
         //}
 
-        public static void ShowHistory()
+        public static void ShowTransactions()
         {
             if (Transactions.Count > 0)
             {

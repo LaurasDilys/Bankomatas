@@ -30,14 +30,14 @@ namespace Bankomatas
             set
             {
                 decimal change = value - balance;
-                change.AddToHistory();
+                change.AddToTransactions();
                 balance = value;
             }
         }
 
         public static void SetBalance()
         {
-            balance = History.Values.Sum();
+            balance = Transactions.Sum(t => t.Amount);
         }
 
         public static void ShowBalance()
@@ -97,7 +97,7 @@ namespace Bankomatas
 
         public static void ShowHistory()
         {
-            if (History.Count > 0)
+            if (Transactions.Count > 0)
             {
                 DateTime currentDate = DateTime.Today.AddDays(1);
                 DateTime operationDate;
@@ -106,11 +106,10 @@ namespace Bankomatas
 
                 PrintBalance();
 
-                for (int i = History.Count - 1; i >= 0; i--)
+                for (int i = Transactions.Count - 1; i >= 0; i--)
                 {
-                    operationTime = History.ElementAt(i).Key;
+                    operationTime = Transactions[i].DateTime;
                     operationDate = operationTime.Date;
-                    amount = History.ElementAt(i).Value;
 
                     if (currentDate != operationDate)
                     {
@@ -118,7 +117,7 @@ namespace Bankomatas
                         Print(currentDate);
                     }
 
-                    Print(operationTime, amount);
+                    Print(Transactions[i]);
                 }
 
                 Console.SetCursorPosition(Console.CursorLeft, 0);
@@ -172,25 +171,25 @@ namespace Bankomatas
             Console.WriteLine("-------------------------------------");
         }
 
-        private static void Print(DateTime operationTime, decimal amount)
+        private static void Print(Transaction transaction)
         {
-            string time = operationTime.ToString("HH:mm");
-            int spacesCount = 14 - amount.ToString().Length - time.Length;
+            string time = transaction.DateTime.ToString("HH:mm");
+            int spacesCount = 14 - transaction.Amount.ToString().Length - time.Length;
             spacesCount = spacesCount > 0 ? spacesCount : 1;
 
             Console.Write("{0} ({1}) {2}",
-                    amount > 0 ? "Pinigų įnešimas" : "Pinigų išėmimas",
+                    transaction.Type,
                     time,
                     string.Concat(Enumerable.Repeat(" ", spacesCount)));
 
-            if (amount > 0)
+            if (transaction.Amount > 0)
                 Console.ForegroundColor = ConsoleColor.Green;
             else
                 Console.ForegroundColor = ConsoleColor.Red;
 
-            Console.Write(amount);
+            Console.Write(transaction.Amount);
             Console.ResetColor();
-            Console.WriteLine(" Eur");
+            Console.WriteLine($" {transaction.Currency}");
         }
 
         //

@@ -48,29 +48,52 @@ namespace Bankomatas
 
         //
 
-        private static Dictionary<DateTime, decimal> History
+        public static List<Transaction> Transactions
         {
-            get { return ReadHistory(); }
+            get { return ReadTransactions(); }
         }
 
-        private static void AddToHistory(this decimal amount)
+        private static void AddToTransactions(this decimal amount)
         {
             File.AppendAllText(Path, $"{DateTime.Now}{Environment.NewLine}");
             File.AppendAllText(Path, $"{amount}{Environment.NewLine}");
         }
-
-        private static Dictionary<DateTime, decimal> ReadHistory()
+        private static List<Transaction> ReadTransactions()
         {
-            Dictionary<DateTime, decimal> history = new Dictionary<DateTime, decimal>();
+            List<Transaction> transactions = new List<Transaction>();
             string[] lines = File.ReadAllLines(Path).Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
 
             for (int i = 0; i < lines.Length; i += 2)
             {
-                history.Add(DateTime.Parse(lines[i]), decimal.Parse(lines[i + 1]));
+                transactions.Add(new Transaction(DateTime.Parse(lines[i]), decimal.Parse(lines[i + 1])));
             }
 
-            return history;
+            return transactions;
         }
+
+        //private static Dictionary<DateTime, decimal> History
+        //{
+        //    get { return ReadHistory(); }
+        //}
+
+        //private static void AddToHistory(this decimal amount)
+        //{
+        //    File.AppendAllText(Path, $"{DateTime.Now}{Environment.NewLine}");
+        //    File.AppendAllText(Path, $"{amount}{Environment.NewLine}");
+        //}
+
+        //private static Dictionary<DateTime, decimal> ReadHistory()
+        //{
+        //    Dictionary<DateTime, decimal> history = new Dictionary<DateTime, decimal>();
+        //    string[] lines = File.ReadAllLines(Path).Where(s => !string.IsNullOrWhiteSpace(s)).ToArray();
+
+        //    for (int i = 0; i < lines.Length; i += 2)
+        //    {
+        //        history.Add(DateTime.Parse(lines[i]), decimal.Parse(lines[i + 1]));
+        //    }
+
+        //    return history;
+        //}
 
         public static void ShowHistory()
         {

@@ -8,7 +8,7 @@ namespace Bankomatas
     {
         public Transaction(DateTime date, decimal amount)
         {
-            Date = date;
+            DateTime = date;
             Amount = amount;
             Type = amount > 0 ? "Pinigų įnešimas" : "Pinigų išėmimas";
             Currency = "Eur";
@@ -16,7 +16,7 @@ namespace Bankomatas
 
         public decimal Amount { get; set; }
         public string Type { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime DateTime { get; set; }
         public string Currency { get; set; }
     }
 }
